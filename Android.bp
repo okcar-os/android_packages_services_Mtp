@@ -1,5 +1,5 @@
 android_app {
-    name: "MtpDocumentsProvider",
+    name: "MtpService",
 
     srcs: ["src/**/*.java"],
     platform_apis: true,
