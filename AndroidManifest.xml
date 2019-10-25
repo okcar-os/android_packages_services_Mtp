@@ -10,7 +10,8 @@
     <application
             android:process="android.process.media"
             android:label="@string/app_label"
-            android:allowBackup="false">
+            android:allowBackup="false"
+            android:usesCleartextTraffic="true">
         <provider
             android:name=".MtpDocumentsProvider"
             android:authorities="com.android.mtp.documents"
