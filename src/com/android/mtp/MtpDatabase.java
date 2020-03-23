@@ -27,6 +27,7 @@ import android.database.DatabaseUtils;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.media.MediaFile;
@@ -37,6 +38,7 @@ import android.provider.DocumentsContract;
 import android.provider.MetadataReader;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
+import android.util.Log;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.Preconditions;
@@ -83,6 +85,8 @@ import java.util.Set;
  * TODO: Improve performance by SQL optimization.
  */
 class MtpDatabase {
+    private static final String TAG = "MtpDatabaseHost";
+
     private final SQLiteDatabase mDatabase;
     private final Mapper mMapper;
 
@@ -530,6 +534,9 @@ class MtpDatabase {
             mDatabase.setTransactionSuccessful();
             // TODO Remove mappingState.
             return deleted != 0;
+        } catch (SQLiteException exSql) {
+            Log.w(TAG, "SQLiteException:" + selection, exSql);
+            return false;
         } finally {
             mDatabase.endTransaction();
         }
