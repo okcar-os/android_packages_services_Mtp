@@ -136,6 +136,10 @@ public class MtpDocumentsProvider extends DocumentsProvider {
             // It can happen due to disk shortage.
             Log.e(TAG, "Failed to clean database.", error);
             return false;
+        } catch (SecurityException exSec) {
+            // For UriPermission.
+            Log.w(TAG, "SecurityException:", exSec);
+            return false;
         }
 
         resume();
