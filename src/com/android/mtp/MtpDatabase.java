@@ -535,7 +535,8 @@ class MtpDatabase {
             // TODO Remove mappingState.
             return deleted != 0;
         } catch (SQLiteException exSql) {
-            Log.w(TAG, "SQLiteException:" + selection, exSql);
+            Log.w(TAG, "deleteDocumentsAndRoots.SQLiteException (bypassed): "
+                    + selection + ", dump:", exSql);
             return false;
         } finally {
             mDatabase.endTransaction();
@@ -684,6 +685,8 @@ class MtpDatabase {
             deleteDocumentsAndRoots(
                     Document.COLUMN_DOCUMENT_ID + " NOT IN " + getIdList(ids), null);
             mDatabase.setTransactionSuccessful();
+        } catch (IllegalArgumentException exArg) {
+            Log.w(TAG, "cleanDatabase.IllegalArgumentException (bypassed), dump:", exArg);
         } finally {
             mDatabase.endTransaction();
         }
