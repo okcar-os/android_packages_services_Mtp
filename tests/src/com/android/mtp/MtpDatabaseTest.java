@@ -1055,6 +1055,17 @@ public class MtpDatabaseTest extends AndroidTestCase {
         mDatabase.getMapper().startAddingDocuments(null);
         mDatabase.getMapper().stopAddingDocuments(null);
 
+        // Clean database with error column
+        mDatabase.cleanDatabase(new Uri[] {
+                DocumentsContract.buildDocumentUri(MtpDocumentsProvider.AUTHORITY,
+                        "wrong_id_test")
+        });
+
+        // Clean database with error uri
+        mDatabase.cleanDatabase(new Uri[] {
+                Uri.parse("content://com.android.providers.downloads.documents/wrong_uri_test")
+        });
+
         // Clean database.
         mDatabase.cleanDatabase(new Uri[] {
                 DocumentsContract.buildDocumentUri(MtpDocumentsProvider.AUTHORITY, "3")
