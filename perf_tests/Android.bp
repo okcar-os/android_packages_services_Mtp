@@ -1,5 +1,4 @@
 package {
-    // See: http://go/android-license-faq
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
@@ -11,4 +10,5 @@ android_test {
     instrumentation_for: "MtpService",
     certificate: "media",
     test_suites: ["device-tests"],
+
 }
