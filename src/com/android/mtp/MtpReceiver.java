@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.UserHandle;
+import android.os.SystemProperties;
 import android.util.Log;
 
 public class MtpReceiver extends BroadcastReceiver {
@@ -45,6 +46,11 @@ public class MtpReceiver extends BroadcastReceiver {
     }
 
     private void handleUsbState(Context context, Intent intent) {
+        boolean isOkcarEnable = SystemProperties.getInt("service.okcar.enable", 0) == 1;
+        if (isOkcarEnable) {
+            return;
+        }
+        
         Bundle extras = intent.getExtras();
         boolean configured = extras.getBoolean(UsbManager.USB_CONFIGURED);
         boolean connected = extras.getBoolean(UsbManager.USB_CONNECTED);

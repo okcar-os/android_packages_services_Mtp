@@ -22,6 +22,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
@@ -37,7 +38,9 @@ public class ReceiverActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(getIntent().getAction())) {
+
+        boolean isOkcarEnable = SystemProperties.getInt("service.okcar.enable", 0) == 1;
+        if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(getIntent().getAction()) && !isOkcarEnable) {
             final UsbDevice device = getIntent().getParcelableExtra(UsbManager.EXTRA_DEVICE);
             try {
                 final MtpDocumentsProvider provider = MtpDocumentsProvider.getInstance();
